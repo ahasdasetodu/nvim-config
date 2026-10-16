@@ -12,6 +12,8 @@ vim.keymap.set('n', '<leader>e','<Cmd>Neotree toggle<CR>', { desc = 'NeoTree tog
 
 require('neo-tree').setup {
   filesystem = {
+    -- Rescan when files are created, deleted, or renamed outside Neovim.
+    use_libuv_file_watcher = true,
     window = {
       mappings = {
         ['<leader>e'] = 'close_window',
