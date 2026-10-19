@@ -66,6 +66,9 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 
+-- Treat .pl as Prolog rather than Perl
+vim.filetype.add { extension = { pl = 'prolog', pro = 'prolog' } }
+
 -- Sync clipboard between OS and Neovim.
 -- Schedule the setting after `UiEnter` because it can increase startup-time.
 -- See `:help 'clipboard'`

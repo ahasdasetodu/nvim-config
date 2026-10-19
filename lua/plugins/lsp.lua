@@ -55,6 +55,8 @@ local servers = {
   clangd = {},
   pyright = {},
   ruff = {}, -- Python linting / formatting (pairs with pyright for types)
+  -- SWI-Prolog. Not available in Mason, install with: swipl -g "pack_install(lsp_server)" -t halt
+  prolog_ls = {},
   stylua = {}, -- Used to format Lua code
   lua_ls = {
     on_init = function(client)
@@ -103,7 +105,8 @@ require('mason-lspconfig').setup {
   automatic_enable = false,
 }
 
-local ensure_installed = vim.tbl_keys(servers)
+local not_in_mason = { prolog_ls = true }
+local ensure_installed = vim.tbl_filter(function(name) return not not_in_mason[name] end, vim.tbl_keys(servers))
 -- Mason tools that are not language servers go in this list.
 vim.list_extend(ensure_installed, {})
 
