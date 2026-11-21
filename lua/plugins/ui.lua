@@ -7,6 +7,7 @@ require('which-key').setup {
   spec = {
     { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
     { '<leader>t', group = '[T]oggle' },
+    { '<leader>a', group = '[A]gent', mode = { 'n', 'v' } },
     { '<leader>g', group = 'Git' },
     { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
     { '<leader>p', group = 'Python' },

@@ -2,7 +2,8 @@
 vim.diagnostic.config {
   update_in_insert = false,
   severity_sort = true,
-  float = { border = 'rounded', source = 'if_many' },
+  -- Floats wrap long messages; inline virtual text cannot.
+  float = { border = 'rounded', source = 'if_many', max_width = 80 },
   underline = { severity = { min = vim.diagnostic.severity.WARN } },
 
   virtual_text = true,
@@ -19,6 +20,20 @@ vim.diagnostic.config {
     end,
   },
 }
+
+-- Show the full (wrapped) diagnostic message when the cursor rests on a line with one.
+-- Fires after `updatetime` ms of no movement; closes when the cursor moves.
+vim.api.nvim_create_autocmd('CursorHold', {
+  desc = 'Show diagnostics for the current line in a float',
+  group = vim.api.nvim_create_augroup('diagnostic-float', { clear = true }),
+  callback = function()
+    -- Don't stack on top of another float (hover docs, completion, etc).
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+      if vim.api.nvim_win_get_config(win).relative ~= '' then return end
+    end
+    vim.diagnostic.open_float { scope = 'line', focus = false }
+  end,
+})
 
 -- See `:help vim.hl.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
